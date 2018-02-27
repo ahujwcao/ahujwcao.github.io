@@ -1,0 +1,881 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="线性回归,逻辑回归,线性模型,最大似然估计," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="Linear Model   1. Linear Regression  1.1. Simple Linear Regression  model formulation  \[\hat{y_i} = wx_i+b\] \[J\left(w,b\right) = \frac{1}{m}\sum_{i=1}^m\left(\hat{y_i}-y_i \right)^2\]  parameter es">
+<meta name="keywords" content="线性回归,逻辑回归,线性模型,最大似然估计">
+<meta property="og:type" content="article">
+<meta property="og:title" content="LinearModel">
+<meta property="og:url" content="http://yoursite.com/2018/02/23/notes/ml_dl/Linear_Model/linear_model/index.html">
+<meta property="og:site_name" content="jwcao&#39;s notes">
+<meta property="og:description" content="Linear Model   1. Linear Regression  1.1. Simple Linear Regression  model formulation  \[\hat{y_i} = wx_i+b\] \[J\left(w,b\right) = \frac{1}{m}\sum_{i=1}^m\left(\hat{y_i}-y_i \right)^2\]  parameter es">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-02-26T15:12:57.545Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="LinearModel">
+<meta name="twitter:description" content="Linear Model   1. Linear Regression  1.1. Simple Linear Regression  model formulation  \[\hat{y_i} = wx_i+b\] \[J\left(w,b\right) = \frac{1}{m}\sum_{i=1}^m\left(\hat{y_i}-y_i \right)^2\]  parameter es">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/02/23/notes/ml_dl/Linear_Model/linear_model/"/>
+
+
+
+
+
+  <title>LinearModel | jwcao's notes</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">jwcao's notes</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/02/23/notes/ml_dl/Linear_Model/linear_model/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Jiawei Cao">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="jwcao's notes">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">LinearModel</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-02-23T13:50:21+08:00">
+                2018-02-23
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/机器学习/" itemprop="url" rel="index">
+                    <span itemprop="name">机器学习</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="linear-model">Linear Model</h1>
+<hr>
+<ul>
+<li><h2 id="linear-regression">1. Linear Regression</h2>
+<ul>
+<li><h3 id="simple-linear-regression">1.1. Simple Linear Regression</h3>
+<ul>
+<li><h3 id="model-formulation"><em>model formulation</em></h3></li>
+</ul>
+<p><span class="math display">\[\hat{y_i} = wx_i+b\]</span> <span class="math display">\[J\left(w,b\right) = \frac{1}{m}\sum_{i=1}^m\left(\hat{y_i}-y_i \right)^2\]</span></p>
+<ul>
+<li><h3 id="parameter-estimation"><em>parameter estimation</em></h3></li>
+</ul>
+<p><span class="math display">\[\left(w^*,b^*\right) = \underset{(w,b)}{\operatorname{arg min}}J\left(w,b \right)\]</span></p>
+<ul>
+<li><h3 id="closed-form-solution"><em>closed-form solution</em></h3></li>
+</ul>
+<p><span class="math display">\[\begin{align}
+\frac{\partial J}{\partial w}
+&amp;= \frac{2}{m} \sum_i \left(\hat{y_i}-y_i\right)
+    \frac{\partial}{\partial w} \left(\hat{y_i}-y_i\right)
+= \frac{2}{m} \sum_i \left(\hat{y_i}-y_i\right)x_i \\
+\frac{\partial J}{\partial b}
+&amp;= \frac{2}{m} \sum_i \left(\hat{y_i}-y_i\right)
+    \frac{\partial}{\partial b} \left(\hat{y_i} - y_i\right)
+= \frac{2}{m} \sum_i \left(\hat{y_i} - y_i\right)
+\end{align}\]</span></p>
+<p><span class="math display">\[\begin{align}
+w^* &amp;= \frac{\sum{y_i(x_i-x)}}{\sum{x_i^2} -\frac{1}{m}\left(\sum{x_i}\right)^2} \\
+b^* &amp;= \frac{1}{m} \sum_{i=1}^m{(y_i-wx_i)}
+\end{align}\]</span></p></li>
+<li><h3 id="multiple-linear-regression">1.2 Multiple Linear Regression</h3>
+<ul>
+<li><h3 id="model-formulation-1"><em>model formulation</em></h3></li>
+</ul>
+<p><span class="math display">\[\boldsymbol w=(\boldsymbol{w};b) \qquad
+\boldsymbol{X}
+=\left(\begin{matrix}
+\boldsymbol{x_1^T}&amp;1\\
+\boldsymbol{x_2^T}&amp;1\\
+\vdots \\
+\boldsymbol{x_m^T}&amp;1\\
+\end{matrix} \right)\]</span></p>
+<p><span class="math display">\[ \boldsymbol{\hat{y}} = \boldsymbol{Xw}
+=\left(
+\begin{array}{c}
+\hat{y_1}\\
+\hat{y_2}\\
+\vdots \\
+\hat{y_m}\\
+\end{array}\right)\qquad
+\hat{\boldsymbol y}^{(i)} = \boldsymbol w^T \boldsymbol x^{(i)}\]</span></p>
+<p><span class="math display">\[J\left(\boldsymbol{w}\right)  = \frac{1}{m} \sum_{i=1}^m
+\left( \hat{\boldsymbol y}^{(i)} - \boldsymbol y^{(i)} \right)^2
+=\frac{1}{m} \left\| \boldsymbol{\hat{y} - y} \right\|^2 \\
+=\frac{1}{m} \left( \boldsymbol{Xw - y} \right)^T \left(\boldsymbol{Xw - y}\right)
+\quad \mapsto [MSE_{train}]\]</span> <span class="math display">\[\boldsymbol{w}^* = \underset{\boldsymbol{w}}{\operatorname{arg min}}
+J\left(\boldsymbol{w}\right)\]</span></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">度量模型性能的一种方法是计算在测试集上的均方误差MSE,为了减小MSE，一种直观方式是最小化训练集上的均方误差</span><br></pre></td></tr></table></figure>
+<ul>
+<li><h3 id="parameter-estimation-1"><em>parameter estimation</em></h3>
+<ul>
+<li>Normal Equation</li>
+</ul>
+<p><span class="math display">\[\nabla_\boldsymbol{w}J(\boldsymbol{w})=0 \Rightarrow
+\nabla_\boldsymbol{w}\left(\boldsymbol{Xw-y}\right)^T\left(\boldsymbol{Xw-y}\right) = 0\\
+\Rightarrow \boldsymbol{w^*=\left( X^TX \right)^{-1}X^Ty}\]</span></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">在这里需要样本数大于特征维度数，即X行数大于列数</span><br></pre></td></tr></table></figure>
+<ul>
+<li>Gradient Descent</li>
+</ul>
+<p><span class="math display">\[\begin{align}
+\frac{\partial J}{\partial \boldsymbol w_j}
+&amp;= \frac{\partial}{\partial w_j} \left(\frac{1}{m} \sum_{i=1}^m \left(\hat{y_i}-y_i \right)^2\right) \\
+&amp;= \frac{1}{m} \sum_{i=1}^m \left(\hat{\boldsymbol y}^{(i)} -\boldsymbol y^{(i)}\right)\boldsymbol x_j^{(i)}
+\end{align}\]</span></p></li>
+</ul></li>
+<li><h3 id="probabilistic-interpretation-for-cost-function">1.3 Probabilistic interpretation for cost function</h3>
+<p><span class="math inline">\(\boldsymbol y^{(i)} = \boldsymbol\theta^T \boldsymbol x^{(i)} + \boldsymbol\epsilon^{(i)}\)</span> ,assume <span class="math inline">\(\boldsymbol\epsilon^{(i)} \thicksim \mathcal{N}(0,\sigma^2)\)</span> and are distributed IID</p>
+<p><span class="math display">\[ p(\boldsymbol\epsilon^{(i)}) = \frac{1}{\sqrt{2\pi}\sigma} exp \left( -\frac{(\boldsymbol\epsilon^{(i)})^2}{2\sigma^2} \right)\]</span></p>
+<p>for given <span class="math inline">\(x^{(i)}\)</span> and <span class="math inline">\(\theta\)</span></p>
+<p><span class="math display">\[p(y_i|x_i;\theta)=\frac{1}{\sqrt{2\pi}\sigma}
+exp \left( -\frac{\left(\boldsymbol y^{(i)} - \boldsymbol\theta^T \boldsymbol x^{(i)} \right)^2}{2\sigma^2} \right)\]</span></p>
+<p><span class="math display">\[L(\boldsymbol \theta)=L(\boldsymbol \theta;\boldsymbol X,\boldsymbol y)=p(\boldsymbol y|\boldsymbol X;\boldsymbol \theta)=
+=\prod_{i=1}^m p(\boldsymbol y^{(i)}|\boldsymbol x^{(i)};\boldsymbol\theta)\]</span></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">似然函数(likelihood fuction),L(θ)表示在概率密度函数的参数是θ时，得到这组样本的概率</span><br></pre></td></tr></table></figure>
+<p><span class="math display">\[\boldsymbol \theta_{ML} = \underset{\boldsymbol \theta}{\operatorname{arg max}}L(\boldsymbol \theta) = \underset{\boldsymbol \theta}{\operatorname{arg max}} \log L(\boldsymbol \theta)\\
+\ell(\boldsymbol\theta) = \log L(\boldsymbol \theta) = \sum_{i=1}^m\log p(\boldsymbol y^{(i)}|\boldsymbol x^{(i)};\boldsymbol\theta)\\ =\sum \left(\ln \frac{1}{\sqrt{2\pi}\sigma} - \frac{\left(\boldsymbol y^{(i)} - \boldsymbol\theta^T \boldsymbol x^{(i)} \right)^2}{2\sigma^2}\right)\\
+=m \ln \frac{1}{\sqrt{2\pi}\sigma} - \frac{1}{2\sigma^2} \sum_{i=1}^m \left(\hat{\boldsymbol y}^{(i)} -\boldsymbol y^{(i)}\right)^2
+\]</span></p>
+<p><span class="math display">\[\operatorname{arg max}\ell(\boldsymbol \theta) \Rightarrow \operatorname{arg min}\left\| \boldsymbol{\hat{y} - y} \right\|^2\]</span></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">最大化关于w的对数似然和最小化均方误差会得到相同的参数估计</span><br></pre></td></tr></table></figure></li>
+</ul></li>
+<li><h2 id="generalized-linear-models">2. Generalized Linear Models</h2>
+<p>For a monotonic and differentiable function <span class="math inline">\(g(\cdot)\)</span> <span class="math display">\[y=g^{-1}(\boldsymbol w^T \boldsymbol x+b)\]</span> These broader family of models Generalized Linear Models，其中函数<span class="math inline">\(g(\cdot)\)</span>称为”联系函数”（link function）</p></li>
+<li><h2 id="logistic-regression">3. Logistic Regression</h2>
+<ul>
+<li><h3 id="model-formulation-2"><em>model formulation</em></h3></li>
+</ul>
+<p><span class="math display">\[\hat{y}=\frac{1}{1+e^{-(\boldsymbol{w}^T\boldsymbol{x}+b)}}\]</span> <span class="math display">\[\rightarrow \ln \frac{y}{1-y} = \boldsymbol{w}^T\boldsymbol{x} + b\]</span></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">y/(1-y):几率(odds)反映了x为正例的相对可能性，ln y/(1-y):对数几率(log odds亦称logit)</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">LR模型本质上在回归真值的对数几率，即将GLM模型中的联系函数设置为logistic function</span><br></pre></td></tr></table></figure>
+<p><span class="math display">\[g(z)=\frac{1}{1 + e^{-z}}\]</span> <span class="math display">\[Cost(\hat{y},y) = -y\log \hat{y_i} - (1-y)\log (1 - \hat{y}) \]</span> <span class="math display">\[J(w) = - \frac{1}{m} \sum_{i=1}^m \left[ \boldsymbol y^{(i)}\log \hat{\boldsymbol y}^{(i)} + (1 - \boldsymbol y^{(i)})\log (1 - \hat{\boldsymbol y}^{(i)}) \right]\]</span></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">在这里不使用均方误差代价函数是由于均方误差代价函数在这里不是凸函数,存在多个局部极小值点</span><br></pre></td></tr></table></figure>
+<ul>
+<li><h3 id="parameter-estimation-2"><em>parameter estimation</em></h3>
+<ul>
+<li>Gradient Descent</li>
+</ul>
+<p><span class="math display">\[\frac{\partial J}{\partial \boldsymbol w_j}=\frac{1}{m}\sum_{i=1}^m\left(\hat{\boldsymbol y}^{(i)} -\boldsymbol y^{(i)}\right)\boldsymbol x_j^{(i)}\]</span> <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">对logistic function求导得 g&apos;=g(1-g)</span><br></pre></td></tr></table></figure></p>
+<p><span class="math display">\[\frac{\mathrm d}{\mathrm dz}g(z) = \frac{e^{-z}}{(1+e^{-z})^2}=\frac{1}{1 + e^{-z}}\cdot \frac{e^{-1}+1-1}{1 + e^{-z}}=\frac{1}{1 + e^{-z}} \cdot \left(1- \frac{1}{1 + e^{-z}}\right)=g(z)(1-g(z))\]</span> for one training example,assume <span class="math inline">\(z=\boldsymbol{w}^T\boldsymbol{x}\)</span> in this,<span class="math inline">\(\boldsymbol w=(\boldsymbol w;b)\ and\ \boldsymbol x=(\boldsymbol x;1)\)</span></p>
+<p><span class="math display">\[\begin{align}\frac{\partial J}{\partial \boldsymbol w_j}
+&amp; = \frac{\partial J}{\partial g(z)}\cdot \frac{\partial g(z)}{\partial z} \cdot  \frac{\partial z}{\partial \boldsymbol w_j}\\
+&amp; = -\left(y\frac{1}{g(z)} + (1-y)\frac{1}{1-g(z)}\cdot(-1) \right) \frac{\partial      g(z)}{\partial z} \cdot \frac{\partial z}{\partial \boldsymbol w_j} \\
+&amp; = -\left(y\frac{1}{g(z)} - (1-y)\frac{1}{1-g(z)}\right)g(z)(1-g(z)) \cdot x_j \\
+&amp; = -\left(y(1-g(z)) - (1-y)g(z)\right)x_j \\
+&amp; = -(y-g(z))x_j \\
+&amp; = (\hat{y}-y)x_j \end{align}\]</span></p></li>
+<li><h3 id="probabilistic-interpretation"><em>probabilistic interpretation</em></h3>
+<p>Assume y satisfies Bernoulli distribution <span class="math display">\[\begin{align}P(y=1|\boldsymbol x) &amp;= \hat{y} \\
+P(y=0|\boldsymbol x) &amp;= 1- \hat{y}\end{align}\]</span></p></li>
+</ul>
+<p><span class="math display">\[\Rightarrow p(y|x;w) = \hat{y}^y (1-\hat{y})^{1-y} \tag 1\]</span></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">将y=1代入(1)式得p(y|x)=h(x),将y=0带入(1)式得p(y|x)=1-h(x)</span><br></pre></td></tr></table></figure>
+<p><span class="math display">\[L(\boldsymbol w) = p(\boldsymbol y|\boldsymbol X;\boldsymbol w)=\prod_{i=1}^m p(\boldsymbol y^{(i)}|\boldsymbol x^{(i)};\boldsymbol w)\]</span></p>
+<p><span class="math display">\[\ell(\boldsymbol w)=\log L(\boldsymbol w)=\sum_{i=1}^m y^{(i)}\log \hat{y}^{(i)} + (1-y^{(i)})\log (1-\hat{y}^{(i)}) \\ \Rightarrow J(\boldsymbol w) = -\ell(\boldsymbol w)\quad \arg \min J(\boldsymbol w) \Rightarrow \arg \max \ell(\boldsymbol w)\]</span></p></li>
+<li><h2 id="lda">4. LDA</h2></li>
+<li><h2 id="reference">5. Reference</h2></li>
+</ul>
+<p>[1] Andrew Ng, Machine Learning, https://www.coursera.org/learn/machine-learning/</p>
+<p>[2] 周志华，《机器学习》，清华大学出版社</p>
+<p>[3] Ian Goodfellow and Yoshua Bengio and Aaron Courville, &quot;Deep Learning&quot;</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/线性回归/" rel="tag"># 线性回归</a>
+          
+            <a href="/tags/逻辑回归/" rel="tag"># 逻辑回归</a>
+          
+            <a href="/tags/线性模型/" rel="tag"># 线性模型</a>
+          
+            <a href="/tags/最大似然估计/" rel="tag"># 最大似然估计</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/02/26/notes/ml_dl/Caffe/caffe_install/" rel="prev" title="Install Caffe">
+                Install Caffe <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">Jiawei Cao</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">11</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">9</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">19</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#linear-model"><span class="nav-number">1.</span> <span class="nav-text">Linear Model</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#linear-regression"><span class="nav-number">1.1.</span> <span class="nav-text">1. Linear Regression</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#simple-linear-regression"><span class="nav-number">1.1.1.</span> <span class="nav-text">1.1. Simple Linear Regression</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#model-formulation"><span class="nav-number">1.1.2.</span> <span class="nav-text">model formulation</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#parameter-estimation"><span class="nav-number">1.1.3.</span> <span class="nav-text">parameter estimation</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#closed-form-solution"><span class="nav-number">1.1.4.</span> <span class="nav-text">closed-form solution</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#multiple-linear-regression"><span class="nav-number">1.1.5.</span> <span class="nav-text">1.2 Multiple Linear Regression</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#model-formulation-1"><span class="nav-number">1.1.6.</span> <span class="nav-text">model formulation</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#parameter-estimation-1"><span class="nav-number">1.1.7.</span> <span class="nav-text">parameter estimation</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#probabilistic-interpretation-for-cost-function"><span class="nav-number">1.1.8.</span> <span class="nav-text">1.3 Probabilistic interpretation for cost function</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#generalized-linear-models"><span class="nav-number">1.2.</span> <span class="nav-text">2. Generalized Linear Models</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#logistic-regression"><span class="nav-number">1.3.</span> <span class="nav-text">3. Logistic Regression</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#model-formulation-2"><span class="nav-number">1.3.1.</span> <span class="nav-text">model formulation</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#parameter-estimation-2"><span class="nav-number">1.3.2.</span> <span class="nav-text">parameter estimation</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#probabilistic-interpretation"><span class="nav-number">1.3.3.</span> <span class="nav-text">probabilistic interpretation</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#lda"><span class="nav-number">1.4.</span> <span class="nav-text">4. LDA</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#reference"><span class="nav-number">1.5.</span> <span class="nav-text">5. Reference</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Jiawei Cao</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Mist</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+  
+
+  
+
+</body>
+</html>
