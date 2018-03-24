@@ -360,7 +360,7 @@
 </ul>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ git rm the_submodule</span><br><span class="line">$ rm -rf .git/modules/the_submodule</span><br></pre></td></tr></table></figure>
 <ul>
-<li><h3 id="ignore">ignore</h3></li>
+<li><h3 id="ignore-submodule">ignore submodule</h3></li>
 </ul>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">echo</span> <span class="string">"sub_repo/"</span> &gt;&gt; .gitignore</span><br><span class="line">$ git <span class="built_in">clone</span> https://user@bitbucket.org/user/repo.git sub_repo</span><br></pre></td></tr></table></figure>
 
@@ -1692,24 +1692,26 @@
 <li><p>1.2 <strong><em>disable nouveau module(optional)</em></strong></p></li>
 <li><p>vim /etc/modprobe.d/blacklist-nouveau.conf</p></li>
 </ul>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">blacklist nouveau</span><br><span class="line">blacklist lbm-nouveau</span><br><span class="line">options nouveau modeset=0</span><br><span class="line"><span class="built_in">alias</span> nouveau off</span><br><span class="line"><span class="built_in">alias</span> lbm-nouveau off</span><br></pre></td></tr></table></figure>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">blacklist nouveau</span><br><span class="line">options nouveau modeset=0</span><br></pre></td></tr></table></figure>
 <ul>
-<li>disable module</li>
+<li>update module</li>
 </ul>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">echo</span> options nouveau modeset=0 | sudo tee -a /etc/modprobe.d/nouveau-kms.conf</span><br><span class="line">update-initramfs -u</span><br></pre></td></tr></table></figure>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">update-initramfs -u</span><br></pre></td></tr></table></figure>
 <ul>
 <li>1.3 <strong><em>execute installer</em></strong></li>
 </ul>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">service lightdm stop / service gdm3 stop</span><br><span class="line">sh NVIDIA-Linux-x86_64-XX.run</span><br></pre></td></tr></table></figure>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">service lightdm stop / service gdm3 stop</span><br><span class="line">sh NVIDIA-Linux-x86_64-XX.run -no-opengl-files</span><br></pre></td></tr></table></figure>
 <h3 id="install-cudacudnn">2. Install cuda/cudnn</h3>
 <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sh cuda_XX.run</span><br><span class="line"><span class="built_in">echo</span> <span class="string">"/usr/local/cuda/lib64"</span>&gt;&gt;/etc/ld.so.conf.d/libcuda.conf</span><br><span class="line">ldconfig</span><br></pre></td></tr></table></figure>
 <h1 id="issues">Issues</h1>
 <ul>
-<li><h3 id="cuda-install"><em>cuda install</em></h3></li>
+<li><h3 id="nvidia-driver-install"><em>nvidia driver install</em></h3></li>
 </ul>
 <ol style="list-style-type: decimal">
-<li>Can't locate InstallUtils.pm in <span class="citation">@INC</span> <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">export PERL5LIB=.</span><br></pre></td></tr></table></figure></li>
+<li>登录管理器循环登录问题</li>
 </ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">(1) bios 安全登录问题</span><br><span class="line">(2) #./NVIDIA-xxx.run -no-x-check -no-nouveau-check -no-opengl-files</span><br><span class="line">``` </span><br><span class="line"></span><br><span class="line">+ ### *cuda install*</span><br><span class="line"></span><br><span class="line">1. Can&apos;t locate InstallUtils.pm in @INC</span><br></pre></td></tr></table></figure>
+<p>export PERL5LIB=. ```</p>
 
           
         
