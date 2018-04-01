@@ -79,18 +79,18 @@
 
 
 
-<meta name="description" content="cuda及nvidia驱动安装  1. Install nvidia driver  1.1 dependences  123apt install dkms build-essential linux-headers-amd64(or linux-headers-$(uname -r))dpkg --add-architecture i386apt install lib32z1 lib32nc">
+<meta name="description" content="cuda及nvidia驱动安装  1. Install nvidia driver  dependences  123apt install dkms build-essential linux-headers-amd64(or linux-headers-$(uname -r))dpkg --add-architecture i386apt install lib32z1 lib32ncurse">
 <meta name="keywords" content="cuda,nvidia">
 <meta property="og:type" content="article">
 <meta property="og:title" content="cuda及nvidia驱动安装">
 <meta property="og:url" content="http://yoursite.com/2018/02/26/notes/tools/cuda/cuda_nvidia_install/index.html">
 <meta property="og:site_name" content="jwcao&#39;s notes">
-<meta property="og:description" content="cuda及nvidia驱动安装  1. Install nvidia driver  1.1 dependences  123apt install dkms build-essential linux-headers-amd64(or linux-headers-$(uname -r))dpkg --add-architecture i386apt install lib32z1 lib32nc">
+<meta property="og:description" content="cuda及nvidia驱动安装  1. Install nvidia driver  dependences  123apt install dkms build-essential linux-headers-amd64(or linux-headers-$(uname -r))dpkg --add-architecture i386apt install lib32z1 lib32ncurse">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-04-01T14:00:13.000Z">
+<meta property="og:updated_time" content="2018-04-01T14:06:33.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="cuda及nvidia驱动安装">
-<meta name="twitter:description" content="cuda及nvidia驱动安装  1. Install nvidia driver  1.1 dependences  123apt install dkms build-essential linux-headers-amd64(or linux-headers-$(uname -r))dpkg --add-architecture i386apt install lib32z1 lib32nc">
+<meta name="twitter:description" content="cuda及nvidia驱动安装  1. Install nvidia driver  dependences  123apt install dkms build-essential linux-headers-amd64(or linux-headers-$(uname -r))dpkg --add-architecture i386apt install lib32z1 lib32ncurse">
 
 
 
@@ -346,32 +346,32 @@
 <hr>
 <h3 id="install-nvidia-driver">1. Install nvidia driver</h3>
 <ul>
-<li>1.1 <strong><em>dependences</em></strong></li>
+<li><strong><em>dependences</em></strong></li>
 </ul>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">apt install dkms build-essential linux-headers-amd64(or linux-headers-$(uname -r))</span><br><span class="line">dpkg --add-architecture i386</span><br><span class="line">apt install lib32z1 lib32ncurses5</span><br></pre></td></tr></table></figure>
 <ul>
-<li><p>1.2 <strong><em>disable nouveau module(optional)</em></strong></p></li>
-<li><p>vim /etc/modprobe.d/blacklist-nouveau.conf</p></li>
+<li><p><strong><em>disable nouveau module(optional)</em></strong></p>
+<ul>
+<li>vim /etc/modprobe.d/blacklist-nouveau.conf</li>
 </ul>
 <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">blacklist nouveau</span><br><span class="line">options nouveau modeset=0</span><br></pre></td></tr></table></figure>
 <ul>
 <li>update module</li>
 </ul>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">update-initramfs -u</span><br></pre></td></tr></table></figure>
-<ul>
-<li>1.3 <strong><em>execute installer</em></strong></li>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">update-initramfs -u</span><br></pre></td></tr></table></figure></li>
+<li><p><strong><em>execute installer</em></strong></p></li>
 </ul>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">service lightdm stop / service gdm3 stop</span><br><span class="line">sh NVIDIA-Linux-x86_64-XX.run -no-opengl-files</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">service lightdm stop // service gdm3 stop</span><br><span class="line">sh NVIDIA-Linux-x86_64-XX.run -no-opengl-files</span><br></pre></td></tr></table></figure>
 <h3 id="install-cudacudnn">2. Install cuda/cudnn</h3>
 <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sh cuda_XX.run</span><br><span class="line"><span class="built_in">echo</span> <span class="string">"/usr/local/cuda/lib64"</span>&gt;&gt;/etc/ld.so.conf.d/libcuda.conf</span><br><span class="line">ldconfig</span><br></pre></td></tr></table></figure>
-<h1 id="issues">Issues</h1>
+<h3 id="issues">3. Issues</h3>
 <ul>
-<li><h3 id="nvidia-driver-install"><em>nvidia driver install</em></h3>
+<li><p><strong><em>nvidia driver install</em></strong></p>
 <ul>
 <li>登录管理器循环登录问题</li>
 </ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">     (1) bios 安全登录问题</span><br><span class="line">     (2) #./NVIDIA-xxx.run -no-x-check -no-nouveau-check -no-opengl-files</span><br><span class="line">    ``` </span><br><span class="line"></span><br><span class="line">+ ### *cuda install*</span><br><span class="line"></span><br><span class="line">    - Can&apos;t locate InstallUtils.pm in @INC</span><br></pre></td></tr></table></figure>
-export PERL5LIB=. ```</li>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">     (1) bios 安全登录问题</span><br><span class="line">     (2) #./NVIDIA-xxx.run -no-x-check -no-nouveau-check -no-opengl-files</span><br><span class="line">    ``` </span><br><span class="line"></span><br><span class="line">- ***cuda install***</span><br><span class="line"></span><br><span class="line">    - Can&apos;t locate InstallUtils.pm in @INC</span><br></pre></td></tr></table></figure>
+<p>export PERL5LIB=. ```</p></li>
 </ul>
 
       
@@ -549,7 +549,7 @@ export PERL5LIB=. ```</li>
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#cuda及nvidia驱动安装"><span class="nav-number">1.</span> <span class="nav-text">cuda及nvidia驱动安装</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#install-nvidia-driver"><span class="nav-number">1.0.1.</span> <span class="nav-text">1. Install nvidia driver</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#install-cudacudnn"><span class="nav-number">1.0.2.</span> <span class="nav-text">2. Install cuda/cudnn</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#issues"><span class="nav-number">2.</span> <span class="nav-text">Issues</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#nvidia-driver-install"><span class="nav-number">2.0.1.</span> <span class="nav-text">nvidia driver install</span></a></li></ol></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#cuda及nvidia驱动安装"><span class="nav-number">1.</span> <span class="nav-text">cuda及nvidia驱动安装</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#install-nvidia-driver"><span class="nav-number">1.0.1.</span> <span class="nav-text">1. Install nvidia driver</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#install-cudacudnn"><span class="nav-number">1.0.2.</span> <span class="nav-text">2. Install cuda/cudnn</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#issues"><span class="nav-number">1.0.3.</span> <span class="nav-text">3. Issues</span></a></li></ol></li></ol></li></ol></div>
             
 
           </div>
