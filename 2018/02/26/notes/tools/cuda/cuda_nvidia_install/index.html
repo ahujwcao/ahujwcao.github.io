@@ -87,7 +87,7 @@
 <meta property="og:site_name" content="jwcao&#39;s notes">
 <meta property="og:description" content="cuda及nvidia驱动安装  1. Install nvidia driver  1.1 dependences  123apt install dkms build-essential linux-headers-amd64(or linux-headers-$(uname -r))dpkg --add-architecture i386apt install lib32z1 lib32nc">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-04-01T13:57:03.000Z">
+<meta property="og:updated_time" content="2018-04-01T14:00:13.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="cuda及nvidia驱动安装">
 <meta name="twitter:description" content="cuda及nvidia驱动安装  1. Install nvidia driver  1.1 dependences  123apt install dkms build-essential linux-headers-amd64(or linux-headers-$(uname -r))dpkg --add-architecture i386apt install lib32z1 lib32nc">
@@ -366,13 +366,13 @@
 <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sh cuda_XX.run</span><br><span class="line"><span class="built_in">echo</span> <span class="string">"/usr/local/cuda/lib64"</span>&gt;&gt;/etc/ld.so.conf.d/libcuda.conf</span><br><span class="line">ldconfig</span><br></pre></td></tr></table></figure>
 <h1 id="issues">Issues</h1>
 <ul>
-<li><h3 id="nvidia-driver-install"><em>nvidia driver install</em></h3></li>
-</ul>
-<ol style="list-style-type: decimal">
+<li><h3 id="nvidia-driver-install"><em>nvidia driver install</em></h3>
+<ul>
 <li>登录管理器循环登录问题</li>
-</ol>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">(1) bios 安全登录问题</span><br><span class="line">(2) #./NVIDIA-xxx.run -no-x-check -no-nouveau-check -no-opengl-files</span><br><span class="line">``` </span><br><span class="line"></span><br><span class="line">+ ### *cuda install*</span><br><span class="line"></span><br><span class="line">1. Can&apos;t locate InstallUtils.pm in @INC</span><br></pre></td></tr></table></figure>
-<p>export PERL5LIB=. ```</p>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">     (1) bios 安全登录问题</span><br><span class="line">     (2) #./NVIDIA-xxx.run -no-x-check -no-nouveau-check -no-opengl-files</span><br><span class="line">    ``` </span><br><span class="line"></span><br><span class="line">+ ### *cuda install*</span><br><span class="line"></span><br><span class="line">    - Can&apos;t locate InstallUtils.pm in @INC</span><br></pre></td></tr></table></figure>
+export PERL5LIB=. ```</li>
+</ul>
 
       
     </div>
